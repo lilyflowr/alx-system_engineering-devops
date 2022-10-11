@@ -1,2 +1,2 @@
 #!/bin/bash
-sort | unique -u
+cat <file_name> | sort | uniq -c -->
