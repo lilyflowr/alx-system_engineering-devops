@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#This script creates file /var/run/myscript.pid containing its PID
+
+rm_and_exit() {
+    rm -rf /var/run/myscript.pid
+    exit
+    }
+
+echo $$ > /var/run/myscript.pid
+
+while true
+do
+  echo "To infinity and beyond"
+  sleep 2
+  trap 'echo "I hate the kill command"; rm_and_exit' SIGTERM
+  trap 'echo "Y U no love?!"' SIGINT
+  trap 'rm_and_exit' SIGQUIT
+done
