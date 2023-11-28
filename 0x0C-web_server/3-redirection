@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script configures a new Ubuntu machine to respect above requirements
+
+sudo apt-get update
+sudo apt-get install -y nginx
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+string_block="server_name _;\n\tadd_header X-Served-By \$hostname;\n\trewrite ^\/redirect_me https:\/\/meet.google.com permanent;"
+sudo sed -i "s/server_name _;/$string_block/" /etc/nginx/sites-enabled/default
+
+sudo service nginx restart
