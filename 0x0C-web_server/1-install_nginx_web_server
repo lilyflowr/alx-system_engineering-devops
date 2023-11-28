@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# How to install nginx web server
+
+# 1. Update package index and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# 2. Create an HTML file that prints "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# 3. Restart Nginx server to apply changes
+sudo service nginx restart
+
+#4.  Enable Nginx to start on boot
+sudo service nginx enable
+
+# 5. Exit on success status
+exit 0

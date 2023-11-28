@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# This script configures a new Ubuntu machine with redirect and 404
+
+sudo apt-get update
+sudo apt-get install -y nginx
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
+
+# 1. Use sed to add redirection configuration
+sudo sed -i '/^[^#]*location \/ {/a \\tlocation = \/redirect_me {\n\t\treturn 301 https:\/\/meet.google.com;\n\t}' /etc/nginx/sites-available/default
+
+# 2. Use sed to add custom 404 page configuration
+sudo sed -i '/^[^#]*location \/ {/a \\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}' /etc/nginx/sites-available/default
+
+# 3. Test Nginx configuration
+sudo nginx -t
+
+# 4. Restart Nginx server to apply changes
+sudo service nginx restart
